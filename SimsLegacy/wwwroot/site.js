@@ -1,0 +1,1 @@
+window.localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ilplbm5pZmVyIiwiZXhwIjoxNzAwNDA5NzYzLCJpYXQiOjE3MDAyODAxNjN9.Qp_yFlYymy3y8c4qMuu4sY_4wM2I--wIjo3RVC8Pdwo');
