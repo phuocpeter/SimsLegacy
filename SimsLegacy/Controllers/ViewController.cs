@@ -2,13 +2,13 @@
 
 namespace SimsLegacy.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ViewController : Controller
     {
-        //[Route("/")]
-        //[HttpGet]
-        //public IActionResult Index([FromRoute] string id)
-        //{
-        //    return View();
-        //}
+        [Route("/")]
+        public IActionResult Index([FromRoute] string id)
+        {
+            return View();
+        }
     }
 }

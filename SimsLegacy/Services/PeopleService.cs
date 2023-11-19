@@ -35,11 +35,11 @@
             await TreeResolverService.RebuildResolverAsync(TreeResolverEntity.People, treeId, allIds);
         }
 
-        public async Task<JsonNode> GetPersonAsync(string personId)
+        public async Task<JsonNode> GetPersonAsync(string personId, string treeId = null)
         {
             try
             {
-                if (TreeResolverService.TryGet(TreeResolverEntity.People, personId, out var treeId))
+                if (!string.IsNullOrEmpty(treeId) || TreeResolverService.TryGet(TreeResolverEntity.People, personId, out treeId))
                 {
                     var filePath = Path.Combine(_dataRootPath, treeId, PeoplePath);
                     var rootNode = await ParseToJsonNode(filePath);
@@ -60,6 +60,44 @@
                 Log.LogError(ex, "Failed to get person {path}", personId);
             }
             return null;
+        }
+
+        public async Task<JsonObject> CreatePersonAsync(string treeId, JsonObject personNode)
+        {
+            personNode.Add("_id", Guid.NewGuid().ToString("N")[..24]);
+
+            var filePath = Path.Combine(_dataRootPath, treeId, PeoplePath);
+            var rootNode = await ParseToJsonNode(filePath);
+
+            rootNode.AsArray().Add(personNode);
+
+            var updatedJson = rootNode.ToJsonString();
+            await File.WriteAllTextAsync(filePath, updatedJson);
+
+            return personNode;
+        }
+
+        public async Task DeletePersonAsync(string treeId, string personId)
+        {
+            var filePath = Path.Combine(_dataRootPath, treeId, PeoplePath);
+            var rootNode = await ParseToJsonNode(filePath);
+
+            var personNode = rootNode.AsArray().FirstOrDefault(x =>
+            {
+                if (x.AsObject().TryGetPropertyValue("_id", out var id) && id != null)
+                {
+                    return id.GetValue<string>().Equals(personId);
+                }
+
+                return false;
+            });
+
+            if (personNode != null)
+            {
+                rootNode.AsArray().Remove(personNode);
+                var updatedJson = rootNode.ToJsonString();
+                await File.WriteAllTextAsync(filePath, updatedJson);
+            }
         }
 
         private static async Task<JsonNode> ParseToJsonNode(string filePath)

@@ -2,6 +2,7 @@
 {
     using System.IO.Compression;
     using System.Text.Json;
+    using System.Text.Json.Nodes;
 
     public class DataService
     {
@@ -32,10 +33,19 @@
             return JsonSerializer.Deserialize<object>(treeJson);
         }
 
-        public async Task UpdateTreeByIdAsync(string id, object tree)
+        public async Task UpdateTreeByIdAsync(string id, JsonObject treeData)
         {
-            var treeJson = JsonSerializer.Serialize(tree);
-            await File.WriteAllTextAsync(Path.Combine(_dataRootPath, id, DataPath, "tree.json"), treeJson);
+            if (treeData.TryGetPropertyValue("data", out var dataNode))
+            {
+                var orignalJson = await File.ReadAllTextAsync(Path.Combine(_dataRootPath, id, DataPath, "tree.json"));
+
+                var treeNode = JsonNode.Parse(orignalJson)!.AsObject();
+                treeNode.Remove("data");
+                treeNode["data"] = dataNode.DeepClone();
+
+                var updatedJson = treeNode.ToJsonString();
+                await File.WriteAllTextAsync(Path.Combine(_dataRootPath, id, DataPath, "tree.json"), updatedJson);
+            }
         }
 
         public async Task ImportAsync(string fileName, Stream fileStream)

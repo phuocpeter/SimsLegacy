@@ -1,10 +1,12 @@
 ﻿namespace SimsLegacy.Controllers
 {
     using System.Text.Json;
+    using System.Text.Json.Nodes;
     using Microsoft.AspNetCore.Mvc;
     using SimsLegacy.Services;
 
-    public class TreesController : Controller
+    [ApiController]
+    public class TreesController : ControllerBase
     {
         public TreesController(DataService dataService)
         {
@@ -12,13 +14,6 @@
         }
 
         private DataService DataService { get; }
-
-        [Route("trees/{id}")]
-        //[HttpGet]
-        public IActionResult Index([FromRoute] string id)
-        {
-            return View();
-        }
 
         [HttpGet("api/trees")]
         public IActionResult Get()
@@ -35,9 +30,9 @@
         }
 
         [HttpPatch("api/trees/{id}")]
-        public async Task<IActionResult> UpdateByIdAsync([FromRoute] string id, [FromBody] object tree)
+        public async Task<IActionResult> UpdateByIdAsync([FromRoute] string id, [FromBody] JsonObject treeData)
         {
-            await DataService.UpdateTreeByIdAsync(id, tree);
+            await DataService.UpdateTreeByIdAsync(id, treeData);
             return Ok();
         }
     }

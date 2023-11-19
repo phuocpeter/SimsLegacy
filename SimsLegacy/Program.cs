@@ -44,10 +44,11 @@ namespace SimsLegacy
 
             app.UseResponseCompression();
 
-            //app.UseRewriter(new RewriteOptions()
-            //    .AddRewrite("^[^/api/]", "/", true));
+            app.UseMiddleware<TreeResolverMiddleware>();
 
-            //app.UseDefaultFiles();
+            app.UseRewriter(new RewriteOptions()
+                .AddRewrite("^[^/api/]", "/", false));
+
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -55,9 +56,6 @@ namespace SimsLegacy
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller}/{action=Index}/{id?}");
-
-            //app.MapControllers();
-            //app.MapFallbackToFile("index.html");
         }
     }
 }
