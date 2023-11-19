@@ -41,5 +41,13 @@
             }
             return null;
         }
+
+        public async Task AddAvatarAsync(string treeId, string fileName, Stream stream)
+        {
+            var avatarFilePath = Path.Combine(_dataRootPath, treeId, AvatarPath, fileName);
+            await using var fs = File.Open(avatarFilePath, FileMode.Create,  FileAccess.Write);
+            await stream.CopyToAsync(fs);
+            await fs.FlushAsync();
+        }
     }
 }

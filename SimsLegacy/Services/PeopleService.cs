@@ -77,6 +77,36 @@
             return personNode;
         }
 
+        public async Task<JsonObject> UpdatePersonAsync(string treeId, string personId, JsonObject personNode)
+        {
+            var filePath = Path.Combine(_dataRootPath, treeId, PeoplePath);
+            var rootNode = await ParseToJsonNode(filePath);
+
+            var existingPersonNode = rootNode.AsArray().FirstOrDefault(x =>
+            {
+                if (x.AsObject().TryGetPropertyValue("_id", out var id) && id != null)
+                {
+                    return id.GetValue<string>().Equals(personId);
+                }
+
+                return false;
+            });
+
+            if (existingPersonNode != null)
+            {
+                var idx = existingPersonNode.GetElementIndex();
+                rootNode.AsArray().RemoveAt(idx);
+
+                personNode.Add("_id", personId);
+                rootNode.AsArray().Insert(idx, personNode);
+
+                var updatedJson = rootNode.ToJsonString();
+                await File.WriteAllTextAsync(filePath, updatedJson);
+            }
+
+            return personNode;
+        }
+
         public async Task DeletePersonAsync(string treeId, string personId)
         {
             var filePath = Path.Combine(_dataRootPath, treeId, PeoplePath);
@@ -94,7 +124,32 @@
 
             if (personNode != null)
             {
-                rootNode.AsArray().Remove(personNode);
+                var idx = personNode.GetElementIndex();
+                rootNode.AsArray().RemoveAt(idx);
+                var updatedJson = rootNode.ToJsonString();
+                await File.WriteAllTextAsync(filePath, updatedJson);
+            }
+        }
+
+        public async Task AddPersonAvatarAsync(string treeId, string personId, string avatarFileName)
+        {
+            var filePath = Path.Combine(_dataRootPath, treeId, PeoplePath);
+            var rootNode = await ParseToJsonNode(filePath);
+
+            var existingPersonNode = rootNode.AsArray().FirstOrDefault(x =>
+            {
+                if (x.AsObject().TryGetPropertyValue("_id", out var id) && id != null)
+                {
+                    return id.GetValue<string>().Equals(personId);
+                }
+
+                return false;
+            });
+
+            if (existingPersonNode != null)
+            {
+                existingPersonNode.AsObject()["avatar"] = JsonValue.Create(avatarFileName);
+
                 var updatedJson = rootNode.ToJsonString();
                 await File.WriteAllTextAsync(filePath, updatedJson);
             }

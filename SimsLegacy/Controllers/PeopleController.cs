@@ -5,7 +5,7 @@
     using SimsLegacy.Services;
 
     [ApiController]
-    public class PeopleController : ControllerBase
+    public class PeopleController : ApiControllerBase
     {
         public PeopleController(DataService dataService, PeopleService peopleService)
         {
@@ -26,7 +26,7 @@
         [HttpGet("api/people/{personId}")]
         public async Task<IActionResult> GetPersonAsync([FromRoute] string personId)
         {
-            var person = await PeopleService.GetPersonAsync(personId, (string)HttpContext.Items[TreeResolverMiddleware.Id]);
+            var person = await PeopleService.GetPersonAsync(personId, TreeId);
             if (person == null)
             {
                 return NotFound();
@@ -37,24 +37,36 @@
         [HttpPost("api/people")]
         public async Task<IActionResult> CreatePersonAsync([FromBody] JsonObject person)
         {
-            if (!HttpContext.Items.TryGetValue(TreeResolverMiddleware.Id, out var treeId))
+            if (TreeId == null)
             {
                 return BadRequest();
             }
 
-            await PeopleService.CreatePersonAsync((string)treeId, person);
+            await PeopleService.CreatePersonAsync(TreeId, person);
             return new OkObjectResult(person);
+        }
+
+        [HttpPut("api/people/{personId}")]
+        public async Task<IActionResult> UpdatePersonAsync([FromRoute] string personId, [FromBody] JsonObject person)
+        {
+            if (TreeId == null)
+            {
+                return BadRequest();
+            }
+
+            var personNode = await PeopleService.UpdatePersonAsync(TreeId, personId, person);
+            return Ok(personNode);
         }
 
         [HttpDelete("api/people/{personId}")]
         public async Task<IActionResult> CreatePersonAsync([FromRoute] string personId)
         {
-            if (!HttpContext.Items.TryGetValue(TreeResolverMiddleware.Id, out var treeId))
+            if (TreeId == null)
             {
                 return BadRequest();
             }
 
-            await PeopleService.DeletePersonAsync((string)treeId, personId);
+            await PeopleService.DeletePersonAsync(TreeId, personId);
             return NoContent();
         }
     }

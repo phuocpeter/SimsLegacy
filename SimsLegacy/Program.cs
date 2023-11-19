@@ -1,5 +1,6 @@
 namespace SimsLegacy
 {
+    using Microsoft.AspNetCore.Http.Features;
     using Microsoft.AspNetCore.Rewrite;
     using Microsoft.Extensions.DependencyInjection;
     using SimsLegacy.Services;
@@ -43,13 +44,13 @@ namespace SimsLegacy
             app.UseHttpsRedirection();
 
             app.UseResponseCompression();
-
-            app.UseMiddleware<TreeResolverMiddleware>();
+            
+            app.UseStaticFiles();
 
             app.UseRewriter(new RewriteOptions()
-                .AddRewrite("^[^/api/]", "/", false));
+                .AddRewrite("^[^/api/](.*)", "/", false));
 
-            app.UseStaticFiles();
+            app.UseMiddleware<TreeResolverMiddleware>();
 
             app.UseRouting();
 
