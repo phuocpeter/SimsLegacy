@@ -29,7 +29,7 @@
         [HttpGet("{dimension}/avatar/{file}")]
         public async Task<IActionResult> GetAvatarAsync([FromRoute] string dimension, [FromRoute] string file)
         {
-            var bytes = await AvatarService.GetAvatarAsync(file);
+            var bytes = await AvatarService.GetAvatarAsync(file, TreeId);
             if (bytes == null)
             {
                 return NotFound();

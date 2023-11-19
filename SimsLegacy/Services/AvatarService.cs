@@ -24,11 +24,11 @@
             await TreeResolverService.RebuildResolverAsync(TreeResolverEntity.Avatar, treeId, allAvatarIds);
         }
 
-        public async Task<byte[]> GetAvatarAsync(string avatarFilePath)
+        public async Task<byte[]> GetAvatarAsync(string avatarFilePath, string treeId = null)
         {
             try
             {
-                if (TreeResolverService.TryGet(TreeResolverEntity.Avatar, avatarFilePath, out var treeId))
+                if (!string.IsNullOrEmpty(treeId) || TreeResolverService.TryGet(TreeResolverEntity.Avatar, avatarFilePath, out treeId))
                 {
                     var avatarsRootPath = Path.Combine(_dataRootPath, treeId, AvatarPath, avatarFilePath);
                     return await File.ReadAllBytesAsync(avatarsRootPath);
