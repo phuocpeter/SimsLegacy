@@ -228,12 +228,7 @@ const patreon_namespaceObject = __webpack_require__.p + "cdb5c0a9ce058af93aaa.pn
     className: "container"
   }, /*#__PURE__*/react.createElement("div", {
     className: Home_styles.introPanel
-  }, /*#__PURE__*/react.createElement(dist/* Link */.rU, {
-    to: "/sunset",
-    className: Home_styles.sunsetAlert
-  }, "The Plum Tree App shutdown 1st Dec 2023. Click to find out more."), /*#__PURE__*/react.createElement("p", null, "Welcome to the plum tree app!"), /*#__PURE__*/react.createElement("p", null, "Create dynamic family trees for your sims legacies."), /*#__PURE__*/react.createElement("p", null, "Then publish and share your trees for others to see.")), /*#__PURE__*/react.createElement(DonateBar, {
-    showWhy: true
-  }), /*#__PURE__*/react.createElement("div", {
+  }, /*#__PURE__*/react.createElement("p", null, "Welcome to the plum tree app!"), /*#__PURE__*/react.createElement("p", null, "Create dynamic family trees for your sims legacies."), /*#__PURE__*/react.createElement("p", null, "Then publish and share your trees for others to see.")), /*#__PURE__*/react.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react.createElement("div", {
     className: "col-12 col-md-4"
@@ -267,13 +262,7 @@ const patreon_namespaceObject = __webpack_require__.p + "cdb5c0a9ce058af93aaa.pn
     rel: "noopener noreferrer"
   }, "The SimTwins"), " video instead. We thank them for this brilliant guide they put together on how to build the perfect Sims 4 family tree."), /*#__PURE__*/react.createElement("div", {
     className: Home_styles.guideVideo
-  }, /*#__PURE__*/react.createElement("iframe", {
-    width: "560",
-    height: "315",
-    src: "https://www.youtube.com/embed/QatRM3knISY",
-    frameBorder: "0",
-    allowFullScreen: true
-  })))), /*#__PURE__*/react.createElement("div", {
+  }))), /*#__PURE__*/react.createElement("div", {
     className: "row"
   }, /*#__PURE__*/react.createElement("div", {
     className: "col-12 col-md-6"
@@ -291,7 +280,7 @@ const patreon_namespaceObject = __webpack_require__.p + "cdb5c0a9ce058af93aaa.pn
   }), /*#__PURE__*/react.createElement("p", null, "Get up to speed with how to use The Plum Tree with our guides."), /*#__PURE__*/react.createElement(dist/* Link */.rU, {
     className: "btn btn-primary",
     to: "/guides"
-  }, "Read The Guides"))), /*#__PURE__*/react.createElement(SiteStats, null)));
+  }, "Read The Guides")))));
 });
 ;// CONCATENATED MODULE: ./src/components/Guides/GuidesHome/index.jsx
 
@@ -5581,19 +5570,7 @@ function AccountDropdown_arrayWithHoles(arr) { if (Array.isArray(arr)) return ar
   }, /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement(dist/* Link */.rU, {
     to: "/",
     onClick: onItemClick
-  }, " Home ")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement(dist/* Link */.rU, {
-    to: "/gallery",
-    onClick: onItemClick
-  }, " Gallery ")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement(dist/* Link */.rU, {
-    to: "/guides",
-    onClick: onItemClick
-  }, " Guides ")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement(dist/* Link */.rU, {
-    to: "/donate",
-    onClick: onItemClick
-  }, " Donate ")), /*#__PURE__*/react.createElement("li", null, /*#__PURE__*/react.createElement(dist/* Link */.rU, {
-    to: "/support",
-    onClick: onItemClick
-  }, " Support "))), /*#__PURE__*/react.createElement("div", {
+  }, " Home "))), /*#__PURE__*/react.createElement("div", {
     className: SideNav_styles.navTreesHeader
   }, "Your Trees"), auth.getSession() ? /*#__PURE__*/react.createElement("ul", {
     className: [SideNav_styles.navList, SideNav_styles.lastNav].join(' ')
@@ -5864,13 +5841,7 @@ function Layout_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }
   }, /*#__PURE__*/react.createElement("span", null, "Close"), /*#__PURE__*/react.createElement("i", {
     className: styles.close
-  }))), /*#__PURE__*/react.createElement(dist/* Link */.rU, {
-    to: "/sunset",
-    className: styles.sunsetAlert,
-    onClick: function onClick() {
-      return setMenuOpen(false);
-    }
-  }, "The Plum Tree App shutdown 1st Dec 2023. Click to find out more."), /*#__PURE__*/react.createElement(containers_SideNav, {
+  }))), /*#__PURE__*/react.createElement(containers_SideNav, {
     onItemClick: function onItemClick() {
       return setMenuOpen(false);
     }
